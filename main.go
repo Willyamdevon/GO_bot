@@ -22,5 +22,5 @@ func mustToken() string {
 		log.Fatal("token is not specified")
 	}
 
-	return
+	return *token
 }
