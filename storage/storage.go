@@ -5,14 +5,17 @@ import (
 	"fmt"
 	"io"
 	"main/lib/e"
+	"errors"
 )
 
 type Storage interface {
 	Save(p *Page) error
 	PickRandom(userName string) (*Page, error)
-	Rempove(p *Page) error
+	Remove(p *Page) error
 	IsExists(p *Page) (bool, error)
 }
+
+var ErrNoSaved = errors.New("no saved page")
 
 type Page struct {
 	URL      string
