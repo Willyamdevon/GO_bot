@@ -21,8 +21,8 @@ const(
 	sendMessagrMethod="sendMessage"
 )
 
-func New(host, token string) Client{
-	return Client{
+func New(host, token string) *Client{
+	return &Client{
 		host:      host,
 		basePath:  newBasePath(token),
 		client:    http.Client{},
@@ -39,7 +39,7 @@ func (c *Client) Updates(offset, limit int) (updates []Update, err error){
 	q := url.Values{}	
 	q.Add("offset", strconv.Itoa(offset))
 	q.Add("limit", strconv.Itoa(limit))
-
+	
 	data, err := c.doRequest(getUpdatesMethod, q)
 	if err != nil{
 		return nil, err
