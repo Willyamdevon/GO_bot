@@ -1,13 +1,13 @@
 package telegram
 
 import (
+	"encoding/json"
 	"io"
 	"main/lib/e"
 	"net/http"
 	"net/url"
 	"path"
 	"strconv"
-	"encoding/json"
 )
 
 type Client struct{
@@ -45,10 +45,10 @@ func (c *Client) Updates(offset, limit int) (updates []Update, err error){
 		return nil, err
 	}
 
-	var res UpdatesResponce
+	var res UpdatesResponse
 
-	if err:=json.Unmarshal(data, &res); err!=nil{
-		return nil, err
+	if err:=json.Unmarshal(data, &res); err!=nil{ // где-то здесь ошибка
+		return nil, err // invalid character '<' looking for beginning of value
 	}
 
 	return res.Result, nil
