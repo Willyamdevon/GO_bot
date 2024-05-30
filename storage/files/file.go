@@ -8,7 +8,6 @@ import (
 	"main/storage"
 	"math/rand"
 	"os"
-	"path"
 	"path/filepath"
 	"time"
 )
