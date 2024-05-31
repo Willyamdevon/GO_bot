@@ -2,6 +2,7 @@ package telegram
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"main/lib/e"
 	"net/http"
@@ -16,9 +17,9 @@ type Client struct{
 	client   http.Client
 }
 
-const(
-	getUpdatesMethod="getUpdates"
-	sendMessagrMethod="sendMessage"
+const (
+	getUpdatesMethod  = "getUpdates"
+	sendMessageMethod = "sendMessage"
 )
 
 func New(host, token string) *Client{
@@ -39,14 +40,24 @@ func (c *Client) Updates(offset, limit int) (updates []Update, err error){
 	q := url.Values{}	
 	q.Add("offset", strconv.Itoa(offset))
 	q.Add("limit", strconv.Itoa(limit))
-	
+	// fmt.Println(q)
 	data, err := c.doRequest(getUpdatesMethod, q)
 	if err != nil{
 		return nil, err
 	}
 
-	var res UpdatesResponse
+	// res2 := make(map[string]interface{})
 
+    // if err:=json.Unmarshal(data, &res2); err!=nil{
+	// 	return nil, err
+	// }
+
+    // for k, v := range res2 {
+	// 	fmt.Println("КЛЮЧ:",k,"ЗНАЧЕНИЕ:", v)
+    // }
+
+	var res UpdatesResponse
+	// fmt.Println(string(data))
 	if err:=json.Unmarshal(data, &res); err!=nil{ // где-то здесь ошибка
 		return nil, err // invalid character '<' looking for beginning of value
 	}
@@ -59,7 +70,7 @@ func (c *Client) SendMessage(chatID int, text string) error{
 	q.Add("chat_id", strconv.Itoa(chatID))
 	q.Add("text", text)
 
-	_, err:=c.doRequest(sendMessagrMethod, q)
+	_, err:=c.doRequest(sendMessageMethod, q)
 	if err!=nil{
 		return e.Wrap("can`t send message", err)
 	}
