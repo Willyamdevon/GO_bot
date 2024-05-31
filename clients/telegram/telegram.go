@@ -2,7 +2,6 @@ package telegram
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"main/lib/e"
 	"net/http"
